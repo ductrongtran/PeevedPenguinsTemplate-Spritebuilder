@@ -36,6 +36,8 @@
 		B77F1B3E17B978D7009739AE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B77F1B3D17B978D7009739AE /* Foundation.framework */; };
 		B77F1B4017B978D7009739AE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B77F1B3F17B978D7009739AE /* CoreGraphics.framework */; };
 		B77F1B4217B978D7009739AE /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B77F1B4117B978D7009739AE /* CoreText.framework */; };
+		F5ABF72B1A5A6DC300D5804F /* Penguin.m in Sources */ = {isa = PBXBuildFile; fileRef = F5ABF72A1A5A6DC300D5804F /* Penguin.m */; };
+		F5ABF7381A5A6DD400D5804F /* Seal.m in Sources */ = {isa = PBXBuildFile; fileRef = F5ABF7371A5A6DD400D5804F /* Seal.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +54,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = 5018F24C0DFDEAC400C013A5;
 			remoteInfo = cocos2d;
+		};
+		F5ABF7301A5A6DC300D5804F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B7378940180761A80076A88C /* cocos2d-ios.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D2FEB74F194F6C9E00FC0574;
+			remoteInfo = cocos2dAndroid;
+		};
+		F5ABF7321A5A6DC300D5804F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B7378940180761A80076A88C /* cocos2d-ios.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5BF3267A195F8D8800D9A51A;
+			remoteInfo = cocos2dJava;
+		};
+		F5ABF7341A5A6DC300D5804F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B7378940180761A80076A88C /* cocos2d-ios.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7A4037A819E37038007B6E8F;
+			remoteInfo = "cocos2d-mac";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -90,6 +113,10 @@
 		B77F1B3F17B978D7009739AE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		B77F1B4117B978D7009739AE /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		B7B3713D180358F1007369CC /* libObjectiveChipmunk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libObjectiveChipmunk.a; path = "../libs/cocos2d-iphone/external/Chipmunk/xcode/build/Debug-iphoneos/libObjectiveChipmunk.a"; sourceTree = "<group>"; };
+		F5ABF7291A5A6DC300D5804F /* Penguin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Penguin.h; path = Source/Penguin.h; sourceTree = "<group>"; };
+		F5ABF72A1A5A6DC300D5804F /* Penguin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Penguin.m; path = Source/Penguin.m; sourceTree = "<group>"; };
+		F5ABF7361A5A6DD400D5804F /* Seal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Seal.h; path = Source/Seal.h; sourceTree = "<group>"; };
+		F5ABF7371A5A6DD400D5804F /* Seal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Seal.m; path = Source/Seal.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +156,10 @@
 				B737893E1807617C0076A88C /* AppDelegate.m */,
 				B7378992180767190076A88C /* MainScene.h */,
 				B7378993180767190076A88C /* MainScene.m */,
+				F5ABF7291A5A6DC300D5804F /* Penguin.h */,
+				F5ABF72A1A5A6DC300D5804F /* Penguin.m */,
+				F5ABF7361A5A6DD400D5804F /* Seal.h */,
+				F5ABF7371A5A6DD400D5804F /* Seal.m */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -137,6 +168,9 @@
 			isa = PBXGroup;
 			children = (
 				B737894B180761A90076A88C /* libcocos2d.a */,
+				F5ABF7311A5A6DC300D5804F /* libcocos2dAndroid.a */,
+				F5ABF7331A5A6DC300D5804F /* cocos2dJava.jar */,
+				F5ABF7351A5A6DC300D5804F /* libcocos2d-mac.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -291,6 +325,27 @@
 			remoteRef = B737894A180761A90076A88C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		F5ABF7311A5A6DC300D5804F /* libcocos2dAndroid.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libcocos2dAndroid.a;
+			remoteRef = F5ABF7301A5A6DC300D5804F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F5ABF7331A5A6DC300D5804F /* cocos2dJava.jar */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.jar;
+			path = cocos2dJava.jar;
+			remoteRef = F5ABF7321A5A6DC300D5804F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F5ABF7351A5A6DC300D5804F /* libcocos2d-mac.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libcocos2d-mac.a";
+			remoteRef = F5ABF7341A5A6DC300D5804F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -340,8 +395,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F5ABF7381A5A6DD400D5804F /* Seal.m in Sources */,
 				B737893F1807617C0076A88C /* AppDelegate.m in Sources */,
 				B7378994180767190076A88C /* MainScene.m in Sources */,
+				F5ABF72B1A5A6DC300D5804F /* Penguin.m in Sources */,
 				B73789871807631A0076A88C /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
