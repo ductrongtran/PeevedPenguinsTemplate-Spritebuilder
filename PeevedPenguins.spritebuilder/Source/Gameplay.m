@@ -11,6 +11,7 @@
 @implementation Gameplay {
     CCPhysicsNode *_physicsNode;
     CCNode *_catapultArm;
+    CCNode *_levelNode;
 }
 
 // The shooting mechanism will be triggered whenver a player touches the screen
@@ -18,6 +19,11 @@
 - (void)didLoadFromCCB {
     // tell this scene to accept touches
     self.userInteractionEnabled = TRUE;
+    
+    // Load level 1 to the game play scene and add it ass a child
+    // to the levelNode
+    CCScene *level = [CCBReader loadAsScene:@"Levels/Level1"];
+    [_levelNode addChild:level];
 }
 
 // called on every touch on this scene
@@ -32,7 +38,7 @@
     CCNode *penguin = [CCBReader load:@"Penguin"];
     
     // position the penguin at the bowl of the catapult
-    penguin.position = ccpAdd(_catapultArm.position, ccp(32,100));
+    penguin.position = ccpAdd(_catapultArm.position, ccp(16,50));
     
     // add the penguin to the physicsNode of this scene (because it
     // has the physics enabled)
