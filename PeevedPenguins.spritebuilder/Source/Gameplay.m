@@ -12,6 +12,10 @@
     CCPhysicsNode *_physicsNode;
     CCNode *_catapultArm;
     CCNode *_levelNode;
+    // The node that holds everything on the gameplay scene
+    // we do this so that the retry button will flow with the camera
+    // because we will scroll the contentNode not the gamePlay scene
+    CCNode *_contentNode;
 }
 
 // The shooting mechanism will be triggered whenver a player touches the screen
@@ -57,7 +61,8 @@
     // ensure followed object is in visible are when starting
     self.position = ccp(0, 0);
     CCActionFollow *follow = [CCActionFollow actionWithTarget:penguin worldBoundary:self.boundingBox];
-    [self runAction:follow];
+    // scrolling the object that we send follow to
+    [_contentNode runAction:follow];
 }
 
 @end
