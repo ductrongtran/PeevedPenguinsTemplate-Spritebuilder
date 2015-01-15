@@ -26,6 +26,11 @@
     [_levelNode addChild:level];
 }
 
+- (void)retry {
+    // reload the level
+    [[CCDirector sharedDirector] replaceScene:[CCBReader loadAsScene:@"Gameplay"]];
+}
+
 // called on every touch on this scene
 - (void)touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event
 {
