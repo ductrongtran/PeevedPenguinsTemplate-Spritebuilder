@@ -28,6 +28,9 @@
     // to the levelNode
     CCScene *level = [CCBReader loadAsScene:@"Levels/Level1"];
     [_levelNode addChild:level];
+    
+    // visual physics bodies and joints
+    _physicsNode.debugDraw = true;
 }
 
 - (void)retry {
