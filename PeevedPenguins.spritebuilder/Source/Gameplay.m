@@ -26,6 +26,11 @@
     CCNode *_mouseJointNode;
     CCPhysicsJoint *_mouseJoint;
     
+    // the penguin we are going to launch and the joint
+    // we will use to attach the penguin to the catapult
+    CCNode *_currentPenguin;
+    CCPhysicsJoint *_penguinCatapultJoint;
+    
 }
 
 #pragma mark - Shooting machanism
@@ -47,7 +52,27 @@
         
         // setup a spring joint between the mouseJointNode and the catapult arm
         _mouseJoint = [CCPhysicsJoint connectedSpringJointWithBodyA:_mouseJointNode.physicsBody bodyB:_catapultArm.physicsBody anchorA:ccp(0,0) anchorB:ccp(34,138) restLength:0.f stiffness:3000.f damping:150.f];
+        
+        [self spawnAndAttachPenguin];
     }
+}
+
+- (void)spawnAndAttachPenguin
+{
+    // SPAWN A PENGUIN and then attach it to the scoop of the catapult arm
+    // create a penguin from the ccb-file
+    _currentPenguin = [CCBReader load:@"Penguin"];
+    // inititially position it on the scoop. 34,138 is the position in the node space of the _catapultArm
+    CGPoint penguinPosition = [_catapultArm convertToWorldSpace:ccp(34,138)];
+    // transfor the world position to the node space to which the penguin will be added (_physicsNode)
+    _currentPenguin.position = [_physicsNode convertToNodeSpace:penguinPosition];
+    // add it to the physics world
+    [_physicsNode addChild:_currentPenguin];
+    // we don't want the penguin to rotate in the scoop
+    _currentPenguin.physicsBody.allowsRotation = FALSE;
+    
+    // create a joint to keep the penguin fixed to the scoop until the catapult arm is released
+    _penguinCatapultJoint = [CCPhysicsJoint connectedPivotJointWithBodyA:_currentPenguin.physicsBody bodyB:_catapultArm.physicsBody anchorA:_currentPenguin.anchorPointInPoints];
 }
 
 // whenver a touch moves, we need to update the position of the mouseJointNode so that the catapult arm is dragged in the correct direction.
@@ -68,7 +93,26 @@
         // releases the joint and let the catapult snap back
         [_mouseJoint invalidate];
         _mouseJoint = nil;
+        
+        [self letThePenguinFly];  
     }
+}
+
+- (void)letThePenguinFly
+{
+    // now we need to destroy the joint between the penguin and the scoop,
+    // activate rotation for the penguin and add the camera code to
+    // follow the penguin again
+    // release teh joint and lets the penguin fly
+    [_penguinCatapultJoint invalidate];
+    _penguinCatapultJoint = nil;
+    
+    // after snapping, penguin's rotating is fine
+    _currentPenguin.physicsBody.allowsRotation = TRUE;
+    
+    // follow the flying penguin
+    CCActionFollow *follow = [CCActionFollow actionWithTarget:_currentPenguin worldBoundary:self.boundingBox];
+    [_contentNode runAction:follow];
 }
 
 // when a touch ended, it means that the user releases their finger,
