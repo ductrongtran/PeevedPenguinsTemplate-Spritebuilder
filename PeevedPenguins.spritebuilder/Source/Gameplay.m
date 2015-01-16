@@ -12,14 +12,82 @@
     CCPhysicsNode *_physicsNode;
     CCNode *_catapultArm;
     CCNode *_levelNode;
+    
     // The node that holds everything on the gameplay scene
     // we do this so that the retry button will flow with the camera
     // because we will scroll the contentNode not the gamePlay scene
     CCNode *_contentNode;
+    
     // An inivisible node that is jointed with the catapult arm so that it
     // will pull the arm back when we stress it
     CCNode *_pullbackNode;
+    
+    // Invible nodes to implement the drag and drop catapult
+    CCNode *_mouseJointNode;
+    CCPhysicsJoint *_mouseJoint;
+    
 }
+
+#pragma mark - Shooting machanism
+
+// if a player starts touching the catapult arm, we create a sprintJoint between the mouseJointNode and the catapultArm
+// whenever a touch moves, we update the position of the mouseJointNode
+// when a touch ends we destroy the joint between the mouseJoitnNode and the catapultArm so taht the catapult snaps and fires the penguin
+
+// called on every touch on this scene
+- (void)touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event
+{
+    // get the location of the touch on the content node
+    CGPoint touchLocation = [touch locationInNode:_contentNode];
+    
+    // start catapult dragging when a touch inside of the catapult arm occurs
+    if (CGRectContainsPoint([_catapultArm boundingBox], touchLocation)) {
+        // moves the mouseJointNode to the touch position
+        _mouseJointNode.position = touchLocation;
+        
+        // setup a spring joint between the mouseJointNode and the catapult arm
+        _mouseJoint = [CCPhysicsJoint connectedSpringJointWithBodyA:_mouseJointNode.physicsBody bodyB:_catapultArm.physicsBody anchorA:ccp(0,0) anchorB:ccp(34,138) restLength:0.f stiffness:3000.f damping:150.f];
+    }
+}
+
+// whenver a touch moves, we need to update the position of the mouseJointNode so that the catapult arm is dragged in the correct direction.
+
+- (void)touchMoved:(CCTouch *)touch withEvent:(CCTouchEvent *)event
+{
+    // whenever a touch moves, update the position of the mouseJointNode to the touch position
+    CGPoint touchLocation = [touch locationInNode:_contentNode];
+    _mouseJointNode.position = touchLocation;
+}
+
+// when a touch ends, we want to destroy our joint and let the catapult snap because we need the code in two places
+// (touchEnded:withEvent: and touchCancelled:withEvent) so we are creating a new method for it
+
+- (void)releaseCatapult
+{
+    if (_mouseJoint != nil) {
+        // releases the joint and let the catapult snap back
+        [_mouseJoint invalidate];
+        _mouseJoint = nil;
+    }
+}
+
+// when a touch ended, it means that the user releases their finger,
+// release the catapult
+
+- (void)touchEnded:(CCTouch *)touch withEvent:(CCTouchEvent *)event
+{
+    [self releaseCatapult];
+}
+
+// when a touch cancelled, the user drags their fingers off the screen
+// or onto something else, release the catapult also
+
+- (void)touchCancelled:(CCTouch *)touch withEvent:(CCTouchEvent *)event
+{
+    [self releaseCatapult];
+}
+
+#pragma mark - VC Life cycle
 
 // The shooting mechanism will be triggered whenver a player touches the screen
 // is called when CCB file has completed loading
@@ -38,18 +106,19 @@
     // We don't want the _pullbackNode to collide with any other objects so we will need to set the collisionMask to be an empty array.
     // nothing shall collide with the invisible nodes
     _pullbackNode.physicsBody.collisionMask = @[];
+    
+    // Deactivate collision for the mouseJointNode
+    _mouseJointNode.physicsBody.collisionMask = @[];
 }
+
+#pragma mark - Buttons
 
 - (void)retry {
     // reload the level
     [[CCDirector sharedDirector] replaceScene:[CCBReader loadAsScene:@"Gameplay"]];
 }
 
-// called on every touch on this scene
-- (void)touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event
-{
-    [self launchPenguin];
-}
+#pragma mark - Penguin launching
 
 - (void)launchPenguin
 {
