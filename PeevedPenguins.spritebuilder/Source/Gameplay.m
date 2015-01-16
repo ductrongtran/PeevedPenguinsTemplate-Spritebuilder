@@ -33,6 +33,40 @@
     
 }
 
+#pragma mark - VC Life cycle
+
+// The shooting mechanism will be triggered whenver a player touches the screen
+// is called when CCB file has completed loading
+- (void)didLoadFromCCB {
+    // tell this scene to accept touches
+    self.userInteractionEnabled = TRUE;
+    
+    // Load level 1 to the game play scene and add it ass a child
+    // to the levelNode
+    CCScene *level = [CCBReader loadAsScene:@"Levels/Level1"];
+    [_levelNode addChild:level];
+    
+    // visual physics bodies and joints
+    _physicsNode.debugDraw = true;
+    
+    // We don't want the _pullbackNode to collide with any other objects so we will need to set the collisionMask to be an empty array.
+    // nothing shall collide with the invisible nodes
+    _pullbackNode.physicsBody.collisionMask = @[];
+    
+    // Deactivate collision for the mouseJointNode
+    _mouseJointNode.physicsBody.collisionMask = @[];
+    
+    // sign up as the collision delegate of our physics node.
+    // In this game, whenever a seal is hit by a penguin or ice block,
+    // it is crashed
+    _physicsNode.collisionDelegate = self;
+}
+
+- (void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair seal:(CCNode *)nodeA wildcard:(CCNode *)nodeB
+{
+    CCLOG(@"Something collided with a seal!");
+}
+
 #pragma mark - Shooting machanism
 
 // if a player starts touching the catapult arm, we create a sprintJoint between the mouseJointNode and the catapultArm
@@ -94,7 +128,7 @@
         [_mouseJoint invalidate];
         _mouseJoint = nil;
         
-        [self letThePenguinFly];  
+        [self letThePenguinFly];
     }
 }
 
@@ -129,30 +163,6 @@
 - (void)touchCancelled:(CCTouch *)touch withEvent:(CCTouchEvent *)event
 {
     [self releaseCatapult];
-}
-
-#pragma mark - VC Life cycle
-
-// The shooting mechanism will be triggered whenver a player touches the screen
-// is called when CCB file has completed loading
-- (void)didLoadFromCCB {
-    // tell this scene to accept touches
-    self.userInteractionEnabled = TRUE;
-    
-    // Load level 1 to the game play scene and add it ass a child
-    // to the levelNode
-    CCScene *level = [CCBReader loadAsScene:@"Levels/Level1"];
-    [_levelNode addChild:level];
-    
-    // visual physics bodies and joints
-    _physicsNode.debugDraw = true;
-    
-    // We don't want the _pullbackNode to collide with any other objects so we will need to set the collisionMask to be an empty array.
-    // nothing shall collide with the invisible nodes
-    _pullbackNode.physicsBody.collisionMask = @[];
-    
-    // Deactivate collision for the mouseJointNode
-    _mouseJointNode.physicsBody.collisionMask = @[];
 }
 
 #pragma mark - Buttons

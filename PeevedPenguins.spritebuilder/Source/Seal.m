@@ -10,5 +10,9 @@
 
 @implementation Seal
 
+- (void)didLoadFromCBB
+{
+    self.physicsBody.collisionType = @"seal";
+}
 
 @end
