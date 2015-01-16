@@ -16,6 +16,9 @@
     // we do this so that the retry button will flow with the camera
     // because we will scroll the contentNode not the gamePlay scene
     CCNode *_contentNode;
+    // An inivisible node that is jointed with the catapult arm so that it
+    // will pull the arm back when we stress it
+    CCNode *_pullbackNode;
 }
 
 // The shooting mechanism will be triggered whenver a player touches the screen
@@ -31,6 +34,10 @@
     
     // visual physics bodies and joints
     _physicsNode.debugDraw = true;
+    
+    // We don't want the _pullbackNode to collide with any other objects so we will need to set the collisionMask to be an empty array.
+    // nothing shall collide with the invisible nodes
+    _pullbackNode.physicsBody.collisionMask = @[];
 }
 
 - (void)retry {
