@@ -60,6 +60,7 @@
     // In this game, whenever a seal is hit by a penguin or ice block,
     // it is crashed
     _physicsNode.collisionDelegate = self;
+    self.physicsBody.collisionType = @"seal";
 }
 
 -(void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair seal:(CCNode *)nodeA wildcard:(CCNode *)nodeB
